@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { navigate } from "gatsby"
 import PropTypes from 'prop-types';
 import Box from 'reusecore/src/elements/Box';
 import Text from 'reusecore/src/elements/Text';
 import Heading from 'reusecore/src/elements/Heading';
 import Button from 'reusecore/src/elements/Button';
-import Input from 'reusecore/src/elements/Input';
 import Container from 'common/src/components/UI/Container';
-​
+
 import NewsletterWrapper, { ContactFormWrapper } from './newsletter.style';
 
 function encode(data) {
@@ -14,7 +14,7 @@ function encode(data) {
       .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
       .join('&')
 }
-​
+
 const Newsletter = ({
   sectionWrapper,
   textArea,
@@ -23,6 +23,9 @@ const Newsletter = ({
   title,
   description,
 }) => {
+    const [inputs, setInputs] = useState({
+        email: ''
+    })
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -32,11 +35,19 @@ const Newsletter = ({
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: encode({
             'form-name': form.getAttribute('name'),
-            ...state,
+            ...inputs,
           }),
         })
           .then(() => navigate(form.getAttribute('action')))
           .catch((error) => alert(error))
+    }
+
+    const handleChange = (nombre, valor) => {
+        const newState = { ...inputs }
+
+        newState[nombre] = valor;
+
+        setInputs(newState);
     }
 
   return (
@@ -52,16 +63,10 @@ const Newsletter = ({
           </Box>
           <Box {...buttonArea}>
             <ContactFormWrapper>
-                <form name="contact" method="post" action="/thanks/" data-netlify="true" onSubmit={handleSubmit}>
+                <form name="contact" method="post" action="/appclassic/" data-netlify="true" onSubmit={handleSubmit}>
                     <input type="hidden" name="form-name" value="contact" />
-                    <Input
-                        inputType="email"
-                        label="Email address"
-                        iconPosition="right"
-                        isMaterial={true}
-                        className="email_input"
-                        arial-label="email"
-                    />
+                    <input type="text" value={inputs.email} onChange={(e) => handleChange('email', e.target.value)} />
+                    <button type="submiit">Enviar</button>
                 </form>
               <Button {...buttonStyle} title="GET ACCESS    " />
             </ContactFormWrapper>
@@ -71,7 +76,7 @@ const Newsletter = ({
     </Box>
   );
 };
-​
+
 Newsletter.propTypes = {
   sectionWrapper: PropTypes.object,
   textArea: PropTypes.object,
@@ -80,7 +85,7 @@ Newsletter.propTypes = {
   title: PropTypes.object,
   description: PropTypes.object,
 };
-​
+
 Newsletter.defaultProps = {
   sectionWrapper: {},
   textArea: {
@@ -117,5 +122,5 @@ Newsletter.defaultProps = {
     color: '#03103b',
   },
 };
-​
+
 export default Newsletter;
