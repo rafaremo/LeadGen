@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Box from 'reusecore/src/elements/Box';
 import Text from 'reusecore/src/elements/Text';
@@ -6,38 +6,38 @@ import Heading from 'reusecore/src/elements/Heading';
 import Button from 'reusecore/src/elements/Button';
 import Input from 'reusecore/src/elements/Input';
 import Container from 'common/src/components/UI/Container';
-
+​
 import NewsletterWrapper, { ContactFormWrapper } from './newsletter.style';
 
 function encode(data) {
-  return Object.keys(data)
-    .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-    .join("&");}
+    return Object.keys(data)
+      .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+      .join('&')
+}
+​
+const Newsletter = ({
+  sectionWrapper,
+  textArea,
+  buttonArea,
+  buttonStyle,
+  title,
+  description,
+}) => {
 
-const Newsletter = ({ sectionWrapper, textArea, buttonArea, buttonStyle, title, description }) => {
-  
-  const [formState, setFormState] = useState({
-    email:""
-  });
-
-  const handelFormChange = (nombre, valor) => {
-    let newState = { ...formState };
-    newState[nombre] = valor;
-    setFormState(newState); 
-  }
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const form = e.target;
-
-    const body = encode({ "form-name": form.getAttribute("name"), ...formState });
-
-    fetch("/", {
-      method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: body
-    }).then(() => console.log("Envio de formulario")).catch(error => console.log(error));
-  }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: encode({
+            'form-name': form.getAttribute('name'),
+            ...state,
+          }),
+        })
+          .then(() => navigate(form.getAttribute('action')))
+          .catch((error) => alert(error))
+    }
 
   return (
     <Box {...sectionWrapper} as="section">
@@ -52,23 +52,26 @@ const Newsletter = ({ sectionWrapper, textArea, buttonArea, buttonStyle, title, 
           </Box>
           <Box {...buttonArea}>
             <ContactFormWrapper>
-              <form name="contact" onSubmit={handleSubmit} data-netlify="true">
-                <Input name='email' inputType='email' label='Email address' iconPosition="right"
-                  isMaterial={true}
-                  className="email_input"
-                  arial-label="email"
-                  onChange={(valor) => handelFormChange("email",valor)}
-                />
-                <Button {...buttonStyle} title="ME INTERESA" type="submit"/>
-              </form>
+                <form name="contact" method="post" action="/thanks/" data-netlify="true" onSubmit={handleSubmit}>
+                    <input type="hidden" name="form-name" value="contact" />
+                    <Input
+                        inputType="email"
+                        label="Email address"
+                        iconPosition="right"
+                        isMaterial={true}
+                        className="email_input"
+                        arial-label="email"
+                    />
+                </form>
+              <Button {...buttonStyle} title="GET ACCESS    " />
             </ContactFormWrapper>
           </Box>
         </NewsletterWrapper>
       </Container>
     </Box>
-  )
-}
-
+  );
+};
+​
 Newsletter.propTypes = {
   sectionWrapper: PropTypes.object,
   textArea: PropTypes.object,
@@ -77,7 +80,7 @@ Newsletter.propTypes = {
   title: PropTypes.object,
   description: PropTypes.object,
 };
-
+​
 Newsletter.defaultProps = {
   sectionWrapper: {},
   textArea: {
@@ -114,5 +117,5 @@ Newsletter.defaultProps = {
     color: '#03103b',
   },
 };
-
+​
 export default Newsletter;

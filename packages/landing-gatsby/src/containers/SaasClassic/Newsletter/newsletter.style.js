@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+​
 const NewsletterWrapper = styled.div`
   position: relative;
   background: linear-gradient(
@@ -24,7 +24,7 @@ const NewsletterWrapper = styled.div`
     justify-content: center;
   }
 `;
-
+​
 export const ContactFormWrapper = styled.div`
   display: flex;
   align-items: flex-end;
@@ -46,11 +46,11 @@ export const ContactFormWrapper = styled.div`
       width: 100%;
     }
   }
-
+​
   .email_input {
     flex-grow: 1;
     margin-right: 20px;
-
+​
     @media (max-width: 575px) {
       width: 100%;
       margin-right: 0;
@@ -68,11 +68,11 @@ export const ContactFormWrapper = styled.div`
         }
       }
     }
-
+​
     .highlight {
       background: rgba(255, 255, 255, 0.4);
     }
-
+​
     input {
       background: transparent;
       font-size: 16px;
@@ -84,7 +84,7 @@ export const ContactFormWrapper = styled.div`
         height: 48px;
       }
     }
-
+​
     label {
       font-size: 17px;
       color: #fff;
@@ -95,5 +95,5 @@ export const ContactFormWrapper = styled.div`
     }
   }
 `;
-
+​
 export default NewsletterWrapper;
