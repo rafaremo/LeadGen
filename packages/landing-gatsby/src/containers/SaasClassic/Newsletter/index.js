@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Box from 'reusecore/src/elements/Box';
 import Text from 'reusecore/src/elements/Text';
 import Heading from 'reusecore/src/elements/Heading';
-import Button from 'reusecore/src/elements/Button';
 import Container from 'common/src/components/UI/Container';
 
 import NewsletterWrapper, { ContactFormWrapper } from './newsletter.style';
@@ -62,14 +61,11 @@ const Newsletter = ({
             />
           </Box>
           <Box {...buttonArea}>
-            <ContactFormWrapper>
-                <form name="contact" method="post" action="/appclassic/" data-netlify="true" onSubmit={handleSubmit}>
-                    <input type="hidden" name="form-name" value="contact" />
-                    <input type="text" value={inputs.email} onChange={(e) => handleChange('email', e.target.value)} />
-                    <button type="submiit">Enviar</button>
-                </form>
-              <Button {...buttonStyle} title="GET ACCESS    " />
-            </ContactFormWrapper>
+            <form name="contact" method="post" action="/appclassic/" data-netlify="true" onSubmit={handleSubmit}>
+                <input type="hidden" name="form-name" value="contact" />
+                <input type="text" value={inputs.email} onChange={(e) => handleChange('email', e.target.value)} />
+                <button type="submiit">Enviar</button>
+            </form>
           </Box>
         </NewsletterWrapper>
       </Container>
